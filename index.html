@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine for Tinni Baby 💖</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap');
+
+body{
+margin:0;
+font-family:Roboto;
+background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:15px;
+overflow-x:hidden;
+}
+
+h1{
+font-family:Pacifico;
+color:#ff69b4;
+font-size:clamp(2.2em,6vw,3em);
+min-height:60px;
+}
+
+p{color:white;font-size:1.2em}
+
+.photos{
+display:none;
+gap:10px;
+margin:15px 0;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.photos img{
+width:90px;
+height:90px;
+border-radius:15px;
+object-fit:cover;
+animation:float 4s infinite ease-in-out;
+}
+
+@keyframes float{50%{transform:translateY(-10px)}}
+
+.buttons{display:flex;gap:15px;flex-wrap:wrap}
+
+button{
+padding:12px 26px;
+font-size:1.1em;
+border-radius:40px;
+border:none;
+cursor:pointer;
+}
+
+#yesBtn{background:#ff6eb4;color:white}
+#noBtn{background:white;color:#ff6eb4;border:2px solid #ff6eb4}
+
+/* hearts */
+.heart{
+position:absolute;
+width:18px;
+height:18px;
+background:url('https://i.ibb.co/0Zb6KfM/heart.png') center/contain no-repeat;
+animation:heartMove linear infinite;
+}
+
+@keyframes heartMove{
+0%{transform:translateY(0) scale(0);opacity:1}
+100%{transform:translateY(-600px) scale(1);opacity:0}
+}
+
+/* gifts */
+.gifts{display:none;gap:15px;margin-top:20px;flex-wrap:wrap}
+
+.gift{
+width:85px;
+height:85px;
+background:#ff6eb4;
+border-radius:12px;
+position:relative;
+cursor:pointer;
+}
+
+.lid{
+position:absolute;
+width:100%;
+height:28px;
+background:#fff;
+top:-5px;
+border-radius:12px;
+transform-origin:bottom;
+transition:.6s;
+}
+
+.gift.open .lid{transform:rotateX(130deg)}
+
+.ribbon{
+position:absolute;
+top:-22px;
+left:26px;
+font-size:26px;
+}
+
+.message{
+color:white;
+font-size:1.25em;
+margin-top:12px;
+}
+
+/* fireworks */
+.firework{
+position:absolute;
+width:6px;
+height:6px;
+border-radius:50%;
+background:white;
+animation:boom 1s ease-out forwards;
+}
+
+@keyframes boom{
+to{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* popup */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:10;
+padding:15px;
+}
+
+.letter{
+background:#fff;
+padding:22px;
+border-radius:18px;
+max-width:320px;
+width:100%;
+font-family:Pacifico;
+color:#ff6eb4;
+position:relative;
+animation:pop .5s ease;
+}
+
+.letter p{
+font-family:Roboto;
+color:#555;
+min-height:100px;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:14px;
+font-size:22px;
+cursor:pointer;
+}
+
+@keyframes pop{
+from{transform:scale(.3);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="title"></h1>
+
+<p>🫣 Roses are red, violets are blue 😘🌹<br>This little surprise is made just for you! ( eto tukui Banaite prlm shayeri ta 🙃) R kono vul koire thakle Khoma 🙏🙏🙏🙏🙏</p>
+
+<div class="photos" id="photos">
+<img src="https://i.ibb.co/rRkrHpXD/photo1.jpg">
+<img src="https://i.ibb.co/PsFtyT66/photo2.jpg">
+<img src="https://i.ibb.co/sp4qkwny/photo3.jpg">
+<img src="https://i.ibb.co/WW8RGqn1/photo4.jpg">
+<img src="https://i.ibb.co/Y7q2Zhvx/photo5.jpg">
+</div>
+
+<div class="buttons">
+<button id="yesBtn">Yes 🙈</button>
+<button id="noBtn">No 😢</button>
+</div>
+
+<div class="gifts" id="gifts">
+<div class="gift" onclick="openGift(this,1)"><div class="lid"></div><div class="ribbon">🎀</div></div>
+<div class="gift" onclick="openGift(this,2)"><div class="lid"></div><div class="ribbon">🎀</div></div>
+<div class="gift" onclick="openGift(this,3)"><div class="lid"></div><div class="ribbon">🎀</div></div>
+</div>
+
+<div class="message" id="msg"></div>
+
+<div class="overlay" id="overlay">
+<div class="letter">
+<span class="close" onclick="closeLetter()">×</span>
+<h2>My Love 💖</h2>
+<p id="letterText"></p>
+</div>
+</div>
+
+<audio id="music" src="https://www.bensound.com/bensound-music/bensound-sunny.mp3"></audio>
+
+<script>
+/* title typing */
+const titleText="Dear Tinni 💝( JANOYAR 😝) ";
+let ti=0;
+function typeTitle(){
+if(ti<titleText.length){
+title.innerHTML+=titleText[ti++];
+setTimeout(typeTitle,120);
+}}
+typeTitle();
+
+/* buttons */
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const gifts=document.getElementById("gifts");
+const photos=document.getElementById("photos");
+const msg=document.getElementById("msg");
+const overlay=document.getElementById("overlay");
+const letterText=document.getElementById("letterText");
+const music=document.getElementById("music");
+
+/* FIXED no button logic */
+let clicks=0;
+noBtn.onclick=()=>{
+clicks++;
+noBtn.style.transform=`scale(${1-clicks*0.25})`;
+if(clicks>=3){
+noBtn.style.display="none";
+}
+};
+
+yesBtn.onclick=()=>{
+music.play();
+gifts.style.display="flex";
+photos.style.display="flex";
+
+for(let i=0;i<30;i++){
+const h=document.createElement("div");
+h.className="heart";
+h.style.left=Math.random()*innerWidth+"px";
+h.style.animationDuration=2+Math.random()*3+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),4000);
+}
+};
+
+const letters=[
+"babyyy dustami ta ektu kom koro thlei hbe😚 🌸 🌸",
+"You are my favorite thought every moment 🫠💕",
+"My heart feels happy whenever you're near 🙈💖"
+];
+
+const proposals=[
+"🌹 JANOYAR 😝 Will you be my Valentine? 🙏🙏",
+"💍 Can I always be your special someone?",
+"💖 Will you choose me forever?"
+];
+
+function openGift(g,n){
+g.classList.add("open");
+fireworks(g.offsetLeft+40,g.offsetTop);
+msg.innerHTML=proposals[n-1];
+overlay.style.display="flex";
+typeLetter(letters[n-1]);
+}
+
+function typeLetter(text){
+letterText.innerHTML="";
+let i=0;
+const timer=setInterval(()=>{
+letterText.innerHTML+=text[i++];
+if(i>=text.length) clearInterval(timer);
+},40);
+}
+
+function fireworks(x,y){
+for(let i=0;i<20;i++){
+const f=document.createElement("div");
+f.className="firework";
+f.style.left=x+"px";
+f.style.top=y+"px";
+f.style.setProperty("--x",(Math.random()*200-100)+"px");
+f.style.setProperty("--y",(Math.random()*200-100)+"px");
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1000);
+}
+}
+
+function closeLetter(){
+overlay.style.display="none";
+}
+</script>
+
+</body>
+</html>
